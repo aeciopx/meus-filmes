@@ -1,34 +1,39 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Filmes Online</title>
-  <link rel="stylesheet" href="style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Filmes Online</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <header class="navbar">
-    <h1 class="logo">FILMES</h1>
-    <input type="text" id="search" placeholder="Buscar filmes...">
-  </header>
 
-  <main>
-    <section>
-      <h2>Populares</h2>
-      <div class="row" id="popular"></div>
-    </section>
+    <header class="navbar">
+        <h1 class="logo">FILMES</h1>
+        <input type="text" id="search" placeholder="Buscar filmes...">
+    </header>
 
-    <section>
-      <h2>Em cartaz</h2>
-      <div class="row" id="now_playing"></div>
-    </section>
+    <main>
 
-    <section>
-      <h2>Top avaliados</h2>
-      <div class="row" id="top_rated"></div>
-    </section>
-  </main>
+        <section>
+            <h2>Populares</h2>
+            <div class="row" id="popular"></div>
+        </section>
 
-  <script src="script.js"></script>
+        <section>
+            <h2>Em cartaz</h2>
+            <div class="row" id="now_playing"></div>
+        </section>
+
+        <section>
+            <h2>Top avaliados</h2>
+            <div class="row" id="top_rated"></div>
+        </section>
+
+    </main>
+
+    <!-- SCRIPT QUE CARREGA OS FILMES -->
+    <script src="script.js"></script>
+
 </body>
 </html>
