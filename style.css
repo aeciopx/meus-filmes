@@ -1,39 +1,85 @@
-const API_KEY = "SUA_API_AQUI";
-const BASE = "https://api.themoviedb.org/3";
-const IMG = "https://image.tmdb.org/t/p/w500";
-
-const params = new URLSearchParams(window.location.search);
-const id = params.get("id");
-
-async function carregarDetalhes() {
-  const movieRes = await fetch(`${BASE}/movie/${id}?api_key=${API_KEY}&language=pt-BR`);
-  const movie = await movieRes.json();
-
-  const videoRes = await fetch(`${BASE}/movie/${id}/videos?api_key=${API_KEY}&language=pt-BR`);
-  const videos = await videoRes.json();
-
-  let trailer = videos.results.find(v => v.type === "Trailer" && v.site === "YouTube");
-
-  const el = document.getElementById("details");
-
-  el.innerHTML = `
-    <h1>${movie.title}</h1>
-    <img src="${IMG + movie.poster_path}">
-    <p><strong>Lançamento:</strong> ${movie.release_date}</p>
-    <p><strong>Categorias:</strong> ${movie.genres.map(g => g.name).join(", ")}</p>
-    <p>${movie.overview}</p>
-
-    ${
-      trailer
-        ? `<h2>Trailer</h2>
-           <iframe width="560" height="315"
-             src="https://www.youtube.com/embed/${trailer.key}"
-             frameborder="0"
-             allowfullscreen>
-           </iframe>`
-        : `<p>Trailer não disponível.</p>`
-    }
-  `;
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: Arial, sans-serif;
 }
 
-carregarDetalhes();
+body {
+  background-color: #141414;
+  color: white;
+}
+
+/* Navbar estilo Netflix */
+.navbar {
+  background: #000;
+  padding: 15px 30px;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+}
+
+.logo a {
+  color: #e50914;
+  text-decoration: none;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+/* Grid de filmes */
+.movies {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+  gap: 15px;
+  padding: 20px;
+}
+
+/* Card de filme estilo Netflix */
+.movie {
+  cursor: pointer;
+  transition: transform 0.3s;
+}
+
+.movie img {
+  width: 100%;
+  border-radius: 6px;
+}
+
+.movie:hover {
+  transform: scale(1.08);
+}
+
+/* Detalhes */
+.details {
+  padding: 20px;
+  text-align: center;
+}
+
+.details img {
+  width: 200px;
+  border-radius: 8px;
+  margin: 20px 0;
+}
+
+.details iframe {
+  margin-top: 20px;
+  width: 100%;
+  max-width: 700px;
+  height: 400px;
+}
+
+/* Responsivo */
+@media (max-width: 600px) {
+  .movies {
+    grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
+    gap: 10px;
+  }
+
+  .details img {
+    width: 150px;
+  }
+
+  .details iframe {
+    height: 220px;
+  }
+}
