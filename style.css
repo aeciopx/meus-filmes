@@ -1,67 +1,39 @@
-body {
-    background-color: #111;
-    color: white;
-    font-family: Arial, sans-serif;
-    margin: 0;
+const API_KEY = "SUA_API_AQUI";
+const BASE = "https://api.themoviedb.org/3";
+const IMG = "https://image.tmdb.org/t/p/w500";
+
+const params = new URLSearchParams(window.location.search);
+const id = params.get("id");
+
+async function carregarDetalhes() {
+  const movieRes = await fetch(`${BASE}/movie/${id}?api_key=${API_KEY}&language=pt-BR`);
+  const movie = await movieRes.json();
+
+  const videoRes = await fetch(`${BASE}/movie/${id}/videos?api_key=${API_KEY}&language=pt-BR`);
+  const videos = await videoRes.json();
+
+  let trailer = videos.results.find(v => v.type === "Trailer" && v.site === "YouTube");
+
+  const el = document.getElementById("details");
+
+  el.innerHTML = `
+    <h1>${movie.title}</h1>
+    <img src="${IMG + movie.poster_path}">
+    <p><strong>Lançamento:</strong> ${movie.release_date}</p>
+    <p><strong>Categorias:</strong> ${movie.genres.map(g => g.name).join(", ")}</p>
+    <p>${movie.overview}</p>
+
+    ${
+      trailer
+        ? `<h2>Trailer</h2>
+           <iframe width="560" height="315"
+             src="https://www.youtube.com/embed/${trailer.key}"
+             frameborder="0"
+             allowfullscreen>
+           </iframe>`
+        : `<p>Trailer não disponível.</p>`
+    }
+  `;
 }
 
-.navbar {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 15px 20px;
-    background: black;
-}
-
-.logo {
-    color: red;
-    margin: 0;
-}
-
-#search {
-    padding: 8px;
-    border-radius: 4px;
-    border: none;
-}
-
-section {
-    margin: 20px;
-}
-.logo a {
-    color: red;
-    text-decoration: none;
-}
-
-.row {
-    display: flex;
-    gap: 15px;
-    overflow-x: auto;
-    padding: 10px 0;
-}
-
-.movie {
-    min-width: 150px;
-    transition: transform 0.3s;
-}
-
-.movie img {
-    width: 150px;
-    border-radius: 6px;
-}
-
-.movie:hover {
-    transform: scale(1.08);
-}
-
-/* Página de detalhes */
-.details {
-    padding: 30px;
-    max-width: 900px;
-    margin: auto;
-}
-
-.details img {
-    width: 300px;
-    border-radius: 8px;
-    margin-bottom: 20px;
-}
+carregarDetalhes();
