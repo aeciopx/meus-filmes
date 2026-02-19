@@ -12,27 +12,45 @@ async function carregarDetalhes() {
   const videoRes = await fetch(`${BASE}/movie/${id}/videos?api_key=${API_KEY}&language=pt-BR`);
   const videos = await videoRes.json();
 
-  let trailer = videos.results.find(v => v.type === "Trailer" && v.site === "YouTube");
+  const trailer = videos.results.find(
+    v => v.type === "Trailer" && v.site === "YouTube"
+  );
 
   const el = document.getElementById("details");
 
   el.innerHTML = `
-    <h1>${movie.title}</h1>
-    <img src="${IMG + movie.poster_path}">
-    <p><strong>Lançamento:</strong> ${movie.release_date}</p>
-    <p><strong>Categorias:</strong> ${movie.genres.map(g => g.name).join(", ")}</p>
-    <p>${movie.overview}</p>
+    <div class="details-content">
+      
+      <img src="${IMG + movie.poster_path}" class="poster">
 
-    ${
-      trailer
-        ? `<h2>Trailer</h2>
-           <iframe width="560" height="315"
-             src="https://www.youtube.com/embed/${trailer.key}"
-             frameborder="0"
-             allowfullscreen>
-           </iframe>`
-        : `<p>Trailer não disponível.</p>`
-    }
+      <div class="info">
+        <h1>${movie.title}</h1>
+        <p class="meta">
+          ${movie.release_date} • ⭐ ${movie.vote_average}
+        </p>
+        <p class="genres">
+          ${movie.genres.map(g => g.name).join(" • ")}
+        </p>
+        <p class="overview">
+          ${movie.overview}
+        </p>
+
+        ${
+          trailer
+            ? `
+            <div class="trailer">
+              <iframe 
+                src="https://www.youtube.com/embed/${trailer.key}"
+                frameborder="0"
+                allowfullscreen>
+              </iframe>
+            </div>
+            `
+            : `<p>Trailer não disponível.</p>`
+        }
+
+      </div>
+    </div>
   `;
 }
 
