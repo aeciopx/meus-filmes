@@ -1,29 +1,28 @@
-const apiKey = "9bbfd5e96b1e23a705a8fc51d36dc8e1";
-const baseUrl = "https://api.themoviedb.org/3";
-const imageUrl = "https://image.tmdb.org/t/p/w500";
+const API_KEY = "9bbfd5e96b1e23a705a8fc51d36dc8e1";
+const BASE = "https://api.themoviedb.org/3";
+const IMG = "https://image.tmdb.org/t/p/w300";
 
-function getMovies(endpoint, containerId) {
-    fetch(`${baseUrl}${endpoint}?api_key=${apiKey}&language=pt-BR`)
-        .then(res => res.json())
-        .then(data => {
-            const container = document.getElementById(containerId);
-            container.innerHTML = "";
+async function carregarFilmes() {
+  const res = await fetch(`${BASE}/movie/popular?api_key=${API_KEY}&language=pt-BR`);
+  const data = await res.json();
 
-            data.results.forEach(movie => {
-                const div = document.createElement("div");
-                div.classList.add("movie");
+  const container = document.getElementById("movies");
+  container.innerHTML = "";
 
-                div.innerHTML = `
-                    <a href="details.html?id=${movie.id}">
-                        <img src="${imageUrl + movie.poster_path}" alt="${movie.title}">
-                    </a>
-                `;
+  data.results.forEach(movie => {
+    const div = document.createElement("div");
+    div.classList.add("movie");
 
-                container.appendChild(div);
-            });
-        });
+    div.innerHTML = `
+      <img src="${IMG + movie.poster_path}" alt="${movie.title}">
+    `;
+
+    div.onclick = () => {
+      window.location.href = `details.html?id=${movie.id}`;
+    };
+
+    container.appendChild(div);
+  });
 }
 
-getMovies("/movie/popular", "popular");
-getMovies("/movie/now_playing", "now_playing");
-getMovies("/movie/top_rated", "top_rated");
+carregarFilmes();
