@@ -12,10 +12,23 @@
   <h1 class="logo">
     <a href="index.html">FILMES</a>
   </h1>
+
+  <input 
+    type="text" 
+    id="searchInput" 
+    placeholder="Pesquisar filmes..."
+  >
 </header>
 
 <main>
 
+  <!-- Resultados da busca -->
+  <section class="category" id="searchSection" style="display:none;">
+    <h2>Resultados</h2>
+    <div class="movies-row" id="searchResults"></div>
+  </section>
+
+  <!-- Categorias -->
   <section class="category">
     <h2>Populares</h2>
     <div class="movies-row" id="popular"></div>
