@@ -27,6 +27,10 @@ body {
 section {
     margin: 20px;
 }
+.logo a {
+    color: red;
+    text-decoration: none;
+}
 
 .row {
     display: flex;
