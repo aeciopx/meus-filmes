@@ -2,11 +2,11 @@ const API_KEY = "9bbfd5e96b1e23a705a8fc51d36dc8e1";
 const BASE = "https://api.themoviedb.org/3";
 const IMG = "https://image.tmdb.org/t/p/w300";
 
-async function carregarFilmes() {
-  const res = await fetch(`${BASE}/movie/popular?api_key=${API_KEY}&language=pt-BR`);
+async function carregarCategoria(endpoint, containerId) {
+  const res = await fetch(`${BASE}${endpoint}?api_key=${API_KEY}&language=pt-BR`);
   const data = await res.json();
 
-  const container = document.getElementById("movies");
+  const container = document.getElementById(containerId);
   container.innerHTML = "";
 
   data.results.forEach(movie => {
@@ -25,4 +25,6 @@ async function carregarFilmes() {
   });
 }
 
-carregarFilmes();
+carregarCategoria("/movie/popular", "popular");
+carregarCategoria("/movie/now_playing", "now_playing");
+carregarCategoria("/movie/top_rated", "top_rated");
